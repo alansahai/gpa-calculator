@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGPA Calculator | Dev. by Alan S</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#1E40AF',
+                        accent: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .social-icon:hover {
+            color: #ef2222;
+            /* Tailwind's green-500 */
+            transform: scale(1.2);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <div
+                            class="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-calculator text-white text-sm"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold text-gray-800">GPA Calculator</span>
+                            <span class="text-xs text-gray-500 hidden sm:block">Get your GPA Calculated here!</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html"
+                        class="text-gray-700 hover:text-blue-600 transition duration-300 font-medium">Home</a>
+                    <a href="index.html#about"
+                        class="text-gray-700 hover:text-blue-600 transition duration-300 font-medium">About</a>
+                    <a href="sgpa.html"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">SGPA
+                        Calculator</a>
+                    <a href="cgpa.html"
+                        class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">CGPA
+                        Calculator</a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+            <div class="px-4 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Home</a>
+                <a href="index.html#about" class="block px-3 py-2 text-gray-700 hover:text-blue-600">About</a>
+                <a href="sgpa.html" class="block px-3 py-2 text-blue-600 font-medium">SGPA Calculator</a>
+                <a href="cgpa.html" class="block px-3 py-2 text-indigo-600 font-medium">CGPA Calculator</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center" data-aos="fade-up">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+                    Calculate Your <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">SGPA</span>
+                    Easily
+                </h1>
+                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                    Free, accurate and an instant way to calculate your Semester Grade Point Average (SGPA) with this
+                    user-friendly calculator. Just enter your grades and credits, and get your SGPA in seconds!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Input Form -->
+                <div class="bg-white rounded-xl shadow-lg p-6" data-aos="fade-right">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i class="fas fa-plus-circle text-blue-600 mr-3"></i>
+                        Add Subject Details
+                    </h2>
+
+                    <form id="subjectForm" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Subject Name</label>
+                            <input type="text" id="subjectName"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., Mathematics" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Subject Code</label>
+                            <input type="text" id="subjectCode"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., MATH101" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Credits</label>
+                            <input type="number" id="credits"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., 3" min="1" max="10" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Input Type</label>
+                            <div class="flex space-x-4">
+                                <label class="flex items-center">
+                                    <input type="radio" name="inputType" value="marks"
+                                        class="text-blue-600 focus:ring-blue-500" checked>
+                                    <span class="ml-2 text-gray-700">Marks</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="inputType" value="grade"
+                                        class="text-blue-600 focus:ring-blue-500">
+                                    <span class="ml-2 text-gray-700">Grade</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="marksInput" class="input-section">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Marks (out of 100)</label>
+                            <input type="number" id="marks"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., 85" min="0" max="100">
+                        </div>
+
+                        <div id="gradeInput" class="input-section hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Grade</label>
+                            <select id="grade"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Select Grade</option>
+                                <option value="10">O (Outstanding) - 10</option>
+                                <option value="9">A+ (Excellent) - 9</option>
+                                <option value="8">A (Very Good) - 8</option>
+                                <option value="7">B+ (Good) - 7</option>
+                                <option value="6">B (Above Average) - 6</option>
+                                <option value="5">C (Average) - 5</option>
+                                <option value="0">U (Arrear) - 0</option>
+                                <option value="0">A (Absent) - 0</option>
+                            </select>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add Subject
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Results Section -->
+                <div class="bg-white rounded-xl shadow-lg p-6" data-aos="fade-left">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                            <i class="fas fa-list text-indigo-600 mr-3"></i>
+                            Added Subjects
+                        </h2>
+                        <button id="calculateBtn"
+                            class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled>
+                            <i class="fas fa-calculator mr-2"></i>
+                            Calculate SGPA
+                        </button>
+                    </div>
+
+                    <div id="subjectsList" class="space-y-4 mb-6">
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fas fa-inbox text-4xl mb-4"></i>
+                            <p>No subjects added yet. Add your first subject to get started!</p>
+                        </div>
+                    </div>
+
+                    <!-- SGPA Result -->
+                    <div id="sgpaResult"
+                        class="hidden bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-lg p-6">
+                        <div class="text-center">
+                            <h3 class="text-2xl font-bold text-green-800 mb-2">Your SGPA</h3>
+                            <div class="text-4xl font-bold text-green-600 mb-4" id="sgpaValue">0.00</div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="bg-white rounded-lg p-3">
+                                    <span class="text-gray-600">Total Credits:</span>
+                                    <span class="font-semibold text-gray-800" id="totalCredits">0</span>
+                                </div>
+                                <div class="bg-white rounded-lg p-3">
+                                    <span class="text-gray-600">Total Subjects:</span>
+                                    <span class="font-semibold text-gray-800" id="totalSubjects">0</span>
+                                </div>
+                            </div>
+                            <button id="resetBtn"
+                                class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+                                <i class="fas fa-refresh mr-2"></i>
+                                Reset Calculator
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">How to Use SGPA Calculator</h2>
+                <p class="text-gray-600 text-lg">Follow these simple steps to calculate your SGPA</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center p-6 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100" data-aos="fade-up"
+                    data-aos-delay="100">
+                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold">1</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Enter Details</h3>
+                    <p class="text-gray-600 text-sm">Fill in subject name, code, and credits</p>
+                </div>
+
+                <div class="text-center p-6 rounded-xl bg-gradient-to-br from-indigo-50 to-indigo-100"
+                    data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold">2</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Choose Input</h3>
+                    <p class="text-gray-600 text-sm">Select marks or grade option</p>
+                </div>
+
+                <div class="text-center p-6 rounded-xl bg-gradient-to-br from-green-50 to-green-100" data-aos="fade-up"
+                    data-aos-delay="300">
+                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold">3</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Add Subjects</h3>
+                    <p class="text-gray-600 text-sm">Keep adding all your subjects</p>
+                </div>
+
+                <div class="text-center p-6 rounded-xl bg-gradient-to-br from-yellow-50 to-yellow-100"
+                    data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold">4</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Calculate</h3>
+                    <p class="text-gray-600 text-sm">Click calculate to get your SGPA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Main footer content -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Brand section -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div
+                            class="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-calculator text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-bold">GPA Calculator</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">
+                        Free and accurate GPA calculation tools for students. Calculate your SGPA and CGPA with ease.
+                    </p>
+                </div>
+
+                <!-- Quick links section -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <nav class="space-y-2">
+                        <a href="#home" class="block text-gray-400 hover:text-white transition duration-300">Home</a>
+                        <a href="#about" class="block text-gray-400 hover:text-white transition duration-300">About</a>
+                        <a href="sgpa.html" class="block text-gray-400 hover:text-white transition duration-300">SGPA
+                            Calculator</a>
+                        <a href="cgpa.html" class="block text-gray-400 hover:text-white transition duration-300">CGPA
+                            Calculator</a>
+                    </nav>
+                </div>
+
+                <!-- Developer section -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Developer</h4>
+                    <p class="text-gray-400 mb-4 leading-relaxed">
+                        Developed with ❤️ by
+                        <a href="https://www.linkedin.com/in/alan-s-9385a328a/"
+                            class="text-white font-semibold hover:underline hover:text-blue-300 transition duration-300">
+                            Alan S
+                        </a>
+                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Built using modern web technologies for students worldwide.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bottom section -->
+            <div class="border-t border-gray-700 mt-8 pt-8">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0">
+                    <!-- Copyright -->
+                    <div class="text-center md:text-left">
+                        <p class="text-gray-400 text-sm">
+                            © 2025 GPA Calculator. All rights reserved.
+                            <br class="md:hidden">
+                            Developed by
+                            <a href="https://www.linkedin.com/in/alan-s-9385a328a/"
+                                class="text-red-300 font-bold hover:underline hover:text-red-200 transition duration-300">
+                                Alan S
+                            </a>
+                        </p>
+                    </div>
+
+                    <!-- Social links -->
+                    <div class="flex justify-center md:justify-end space-x-4">
+                        <a href="https://www.github.com/alansahai" class="social-icon" title="Email us">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                        <a href="https://instagram.com/justtalan.psd_" class="social-icon"
+                            title="Follow us on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/glamscrap-technologies-private-limited"
+                            class="social-icon" title="Connect on LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // SGPA Calculator Logic
+        let subjects = [];
+
+        // Input type toggle
+        const inputTypeRadios = document.querySelectorAll('input[name="inputType"]');
+        const marksInput = document.getElementById('marksInput');
+        const gradeInput = document.getElementById('gradeInput');
+
+        inputTypeRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (radio.value === 'marks') {
+                    marksInput.classList.remove('hidden');
+                    gradeInput.classList.add('hidden');
+                    document.getElementById('marks').required = true;
+                    document.getElementById('grade').required = false;
+                } else {
+                    marksInput.classList.add('hidden');
+                    gradeInput.classList.remove('hidden');
+                    document.getElementById('marks').required = false;
+                    document.getElementById('grade').required = true;
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('subjectForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            addSubject();
+        });
+
+        function addSubject() {
+            const subjectName = document.getElementById('subjectName').value;
+            const subjectCode = document.getElementById('subjectCode').value;
+            const credits = parseInt(document.getElementById('credits').value);
+            const inputType = document.querySelector('input[name="inputType"]:checked').value;
+
+            let gradePoints = 0;
+            let displayValue = '';
+
+            if (inputType === 'marks') {
+                const marks = parseInt(document.getElementById('marks').value);
+                gradePoints = marksToGradePoints(marks);
+                displayValue = `${marks} marks`;
+            } else {
+                gradePoints = parseInt(document.getElementById('grade').value);
+                const gradeText = document.getElementById('grade').selectedOptions[0].text;
+                displayValue = gradeText;
+            }
+
+            const subject = {
+                id: Date.now(),
+                name: subjectName,
+                code: subjectCode,
+                credits: credits,
+                gradePoints: gradePoints,
+                displayValue: displayValue
+            };
+
+            subjects.push(subject);
+            updateSubjectsList();
+            resetForm();
+            updateCalculateButton();
+        }
+
+        function marksToGradePoints(marks) {
+            if (marks >= 90) return 10;
+            if (marks >= 80) return 9;
+            if (marks >= 70) return 8;
+            if (marks >= 60) return 7;
+            if (marks >= 50) return 6;
+            if (marks >= 40) return 5;
+            return 0;
+        }
+
+        function updateSubjectsList() {
+            const subjectsList = document.getElementById('subjectsList');
+
+            if (subjects.length === 0) {
+                subjectsList.innerHTML = `
+                    <div class="text-center text-gray-500 py-8">
+                        <i class="fas fa-inbox text-4xl mb-4"></i>
+                        <p>No subjects added yet. Add your first subject to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            subjectsList.innerHTML = subjects.map(subject => `
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-gray-800">${subject.name}</h3>
+                            <p class="text-sm text-gray-600">${subject.code}</p>
+                            <div class="mt-2 flex items-center space-x-4 text-sm">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                    <i class="fas fa-credit-card mr-1"></i>
+                                    ${subject.credits} Credits
+                                </span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded">
+                                    <i class="fas fa-star mr-1"></i>
+                                    ${subject.displayValue}
+                                </span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                                    <i class="fas fa-trophy mr-1"></i>
+                                    ${subject.gradePoints} GP
+                                </span>
+                            </div>
+                        </div>
+                        <button onclick="removeSubject(${subject.id})" class="text-red-600 hover:text-red-800 ml-4">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeSubject(id) {
+            subjects = subjects.filter(subject => subject.id !== id);
+            updateSubjectsList();
+            updateCalculateButton();
+            hideResult();
+        }
+
+        function resetForm() {
+            document.getElementById('subjectForm').reset();
+            document.querySelector('input[name="inputType"][value="marks"]').checked = true;
+            marksInput.classList.remove('hidden');
+            gradeInput.classList.add('hidden');
+            document.getElementById('marks').required = true;
+            document.getElementById('grade').required = false;
+        }
+
+        function updateCalculateButton() {
+            const calculateBtn = document.getElementById('calculateBtn');
+            calculateBtn.disabled = subjects.length === 0;
+        }
+
+        // Calculate SGPA
+        document.getElementById('calculateBtn').addEventListener('click', calculateSGPA);
+
+        function calculateSGPA() {
+            if (subjects.length === 0) return;
+
+            let totalCredits = 0;
+            let totalGradePoints = 0;
+
+            subjects.forEach(subject => {
+                totalCredits += subject.credits;
+                totalGradePoints += (subject.credits * subject.gradePoints);
+            });
+
+            const sgpa = (totalGradePoints / totalCredits).toFixed(2);
+
+            document.getElementById('sgpaValue').textContent = sgpa;
+            document.getElementById('totalCredits').textContent = totalCredits;
+            document.getElementById('totalSubjects').textContent = subjects.length;
+            document.getElementById('sgpaResult').classList.remove('hidden');
+        }
+
+        function hideResult() {
+            if (subjects.length === 0) {
+                document.getElementById('sgpaResult').classList.add('hidden');
+            }
+        }
+
+        // Reset calculator
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset the calculator? This will remove all subjects.')) {
+                subjects = [];
+                updateSubjectsList();
+                updateCalculateButton();
+                hideResult();
+                resetForm();
+            }
+        });
+    </script>
+</body>
+
+</html>
